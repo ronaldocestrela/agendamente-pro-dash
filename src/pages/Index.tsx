@@ -6,7 +6,7 @@ import { CalendarWidget } from "@/components/dashboard/CalendarWidget";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-subtle">
+    <div className="min-h-screen">
       {/* Header */}
       <header className="bg-card border-b shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -8,11 +8,13 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  Menu
+  Menu,
+  LogOut
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAccount } from "@/lib/hooks/useAccount";
 
 const navigationItems = [
   { title: "Dashboard", url: "/", icon: Home },
@@ -29,6 +31,8 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
+  const { logoutUser } = useAccount();
+  
   return (
     <div className={cn(
       "transition-all duration-300 border-r shadow-soft bg-card",
@@ -91,7 +95,21 @@ export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
         </nav>
 
         {/* Collapse/Expand Button */}
-        <div className="mt-auto pt-4">
+        <div className="mt-auto pt-4 space-y-2">
+          {/* Logout Button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => logoutUser.mutate()}
+            className={cn(
+              "w-full hover-scale text-red-600 hover:text-red-700 hover:bg-red-50",
+              collapsed ? "px-0 justify-center" : "justify-start"
+            )}
+          >
+            <LogOut className={cn("h-4 w-4", !collapsed && "mr-2")} />
+            {!collapsed && <span>Sair</span>}
+          </Button>
+          
           <Button
             variant="ghost"
             size="sm"

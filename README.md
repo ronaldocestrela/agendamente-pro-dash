@@ -1,73 +1,167 @@
-# Welcome to your Lovable project
+# SoEstética - Dashboard Web
 
-## Project info
+Sistema de gestão para salão de beleza e estética, desenvolvido com React, TypeScript e tecnologias modernas.
 
-**URL**: https://lovable.dev/projects/ea90de79-9801-4131-bd6a-543cf5d24924
+## 🚀 Funcionalidades
 
-## How can I edit this code?
+### 🔐 Autenticação
+- **Login** - Sistema de autenticação com email e senha
+- **Registro** - Cadastro de novos usuários
+- **Proteção de Rotas** - Apenas usuários autenticados podem acessar o dashboard
 
-There are several ways of editing your application.
+### 📊 Dashboard Principal
+- **Métricas em Tempo Real** - Agendamentos do dia, pendentes, concluídos e cancelados
+- **Lista de Agendamentos** - Visualização dos próximos agendamentos com status
+- **Ações Rápidas** - Botões para funções frequentes (novo agendamento, calendário, etc.)
+- **Widget de Calendário** - Visualização rápida de datas
 
-**Use Lovable**
+### 👥 Gestão de Clientes
+- **Lista de Clientes** - Visualização completa da base de clientes
+- **Busca e Filtros** - Sistema de busca por nome, email ou telefone
+- **Informações Detalhadas** - Email, telefone, endereço e histórico de serviços
+- **Cadastro de Novos Clientes** - Formulário para adicionar clientes
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ea90de79-9801-4131-bd6a-543cf5d24924) and start prompting.
+### 🛠️ Gestão de Serviços
+- **Catálogo de Serviços** - Lista completa dos serviços oferecidos
+- **Categorização** - Organização por categorias (Limpeza, Elétrica, Jardinagem, etc.)
+- **Informações Detalhadas** - Descrição, duração e preço de cada serviço
+- **Estatísticas** - Total de serviços e preço médio
+- **Busca e Filtros** - Sistema de busca e filtros por categoria
 
-Changes made via Lovable will be committed automatically to this repo.
+### 📦 Gestão de Produtos
+- **Controle de Estoque** - Visualização e gestão de produtos
+- **Estatísticas de Produtos** - Total de produtos, valor do estoque, etc.
+- **Categorização** - Organização por categorias de produtos
 
-**Use your preferred IDE**
+### 🎨 Interface e UX
+- **Design Responsivo** - Adaptado para desktop, tablet e mobile
+- **Sidebar Colapsável** - Menu lateral que pode ser recolhido
+- **Tema Moderno** - Interface clean com components shadcn/ui
+- **Animações Suaves** - Transições e animações para melhor experiência
+- **Menu Mobile** - Interface otimizada para dispositivos móveis
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🛠️ Tecnologias Utilizadas
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Frontend
+- **React 18** - Biblioteca principal
+- **TypeScript** - Tipagem estática
+- **Vite** - Build tool e dev server
+- **React Router v7** - Roteamento
+- **TanStack Query** - Gerenciamento de estado e cache
 
-Follow these steps:
+### UI/UX
+- **shadcn/ui** - Componentes de interface
+- **Tailwind CSS** - Framework CSS
+- **Radix UI** - Primitivos de interface
+- **Lucide React** - Ícones
+- **Recharts** - Gráficos e visualizações
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Formulários e Validação
+- **React Hook Form** - Gerenciamento de formulários
+- **Zod** - Validação de esquemas
+- **Hookform Resolvers** - Integração entre RHF e Zod
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Outras Ferramentas
+- **Axios** - Cliente HTTP
+- **Date-fns** - Manipulação de datas
+- **Sonner** - Sistema de notificações
+- **Class Variance Authority** - Variantes de classes CSS
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🚀 Como Executar
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Pré-requisitos
+- Node.js 18+ 
+- npm ou yarn
+
+### Instalação Local
+
+```bash
+# Clone o repositório
+git clone <URL_DO_REPOSITORIO>
+
+# Entre no diretório
+cd soestetica-web
+
+# Instale as dependências
+npm install
+
+# Execute em modo desenvolvimento
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Usando Docker
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# Execute com Docker Compose
+docker compose up -d
 
-**Use GitHub Codespaces**
+# Ou apenas build
+docker compose up -d --build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+O aplicativo estará disponível em `http://localhost:3030`
 
-## What technologies are used for this project?
+## 📝 Scripts Disponíveis
 
-This project is built with:
+```bash
+npm run dev          # Executa em modo desenvolvimento
+npm run build        # Build para produção
+npm run build:dev    # Build em modo desenvolvimento
+npm run preview      # Preview do build de produção
+npm run lint         # Executa o linter
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🏗️ Estrutura do Projeto
 
-## How can I deploy this project?
+```
+src/
+├── components/          # Componentes reutilizáveis
+│   ├── dashboard/      # Componentes específicos do dashboard
+│   ├── layout/         # Layout components (Sidebar, Header)
+│   └── ui/            # Componentes base do shadcn/ui
+├── hooks/             # Custom hooks
+├── lib/               # Utilitários e configurações
+│   ├── api/           # Configuração de API
+│   ├── hooks/         # Hooks de negócio
+│   ├── schemas/       # Esquemas de validação
+│   ├── store/         # Gerenciamento de estado
+│   ├── types/         # Definições de tipos
+│   └── utils.ts       # Funções utilitárias
+├── pages/             # Páginas da aplicação
+└── routes/            # Configuração de rotas
+```
 
-Simply open [Lovable](https://lovable.dev/projects/ea90de79-9801-4131-bd6a-543cf5d24924) and click on Share -> Publish.
+## 🔐 Autenticação
 
-## Can I connect a custom domain to my Lovable project?
+O sistema implementa autenticação baseada em cookies com:
+- Rotas protegidas que redirecionam para login
+- Validação de sessão automática
+- Logout com limpeza de estado
+- Páginas públicas apenas para login e registro
 
-Yes, you can!
+## 🎨 Temas e Estilização
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- **Design System** baseado em shadcn/ui
+- **Gradientes modernos** e efeitos visuais
+- **Animações CSS** customizadas
+- **Responsividade** completa
+- **Modo escuro/claro** (configurável)
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📱 Responsividade
+
+- **Mobile First** - Interface otimizada para mobile
+- **Breakpoints** - sm, md, lg, xl
+- **Menu Mobile** - Sidebar colapsável em telas pequenas
+- **Cards Responsivos** - Layout adaptativo dos componentes
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.

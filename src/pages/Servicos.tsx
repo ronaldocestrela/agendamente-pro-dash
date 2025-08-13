@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Search, Plus, Clock, DollarSign, Wrench } from "lucide-react";
+import { useServices } from "@/lib/hooks/useServices";
 
 const mockServices = [
   {
@@ -50,6 +51,8 @@ const Servicos = () => {
       : { variant: 'secondary' as const, label: 'Inativo' };
   };
 
+  const { services, isLoadingServices } = useServices();
+
   const getCategoryColor = (category: string) => {
     const colors = {
       'Limpeza': 'bg-blue-100 text-blue-800',
@@ -59,6 +62,8 @@ const Servicos = () => {
     };
     return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };
+
+  if (isLoadingServices) return <div>Carregando serviços...</div>;
 
   return (
     <div className="p-6 space-y-6">
@@ -105,7 +110,7 @@ const Servicos = () => {
 
       {/* Services Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {mockServices.map((service) => {
+        {/* {mockServices.map((service) => {
           const statusConfig = getStatusBadge(service.status);
           
           return (
@@ -158,6 +163,59 @@ const Servicos = () => {
               </CardContent>
             </Card>
           );
+        })} */}
+        {services.map((service) => {
+          const statusConfig = getStatusBadge(service.isActive ? 'active' : 'inactive');
+          return (
+            <Card key={service.id} className="shadow-soft hover:shadow-elegant transition-all duration-300 hover-scale">
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <CardTitle className="text-xl">{service.name}</CardTitle>
+                      <Badge variant={statusConfig.variant} className="text-xs">
+                        {statusConfig.label}
+                      </Badge>
+                    </div>
+                    {/* <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(service.category)}`}>
+                      {service.category}
+                    </span> */}
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-primary">
+                      R$ {service.price.toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+              </CardHeader>
+              
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground text-sm">
+                  {service.description}
+                </p>
+                
+                <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                  <div className="flex items-center space-x-1">
+                    <Clock className="h-4 w-4" />
+                    <span>{service.durationInMinutes}</span>
+                  </div>
+                  {/* <div className="flex items-center space-x-1">
+                    <DollarSign className="h-4 w-4" />
+                    <span>R$ {service.price.toFixed(2)}</span>
+                  </div> */}
+                </div>
+                
+                <div className="flex gap-2 pt-2">
+                  <Button variant="outline" size="sm" className="flex-1">
+                    Editar
+                  </Button>
+                  <Button size="sm" className="flex-1">
+                    Agendar
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          );
         })}
       </div>
 
@@ -171,7 +229,7 @@ const Servicos = () => {
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Total de Serviços</p>
-                <p className="text-2xl font-bold text-foreground">{mockServices.length}</p>
+                <p className="text-2xl font-bold text-foreground">{services.length}</p>
               </div>
             </div>
           </CardContent>
@@ -186,7 +244,7 @@ const Servicos = () => {
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Preço Médio</p>
                 <p className="text-2xl font-bold text-foreground">
-                  R$ {(mockServices.reduce((acc, s) => acc + s.price, 0) / mockServices.length).toFixed(0)}
+                  R$ {(services.reduce((acc, s) => acc + s.price, 0) / services.length).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -202,7 +260,7 @@ const Servicos = () => {
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Serviços Ativos</p>
                 <p className="text-2xl font-bold text-foreground">
-                  {mockServices.filter(s => s.status === 'active').length}
+                  {services.filter(s => s.isActive).length}
                 </p>
               </div>
             </div>

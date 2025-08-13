@@ -7,4 +7,15 @@ type User = {
     roleName?: string;
 }
 
-export type { User };
+type Service = {
+    id: string,
+    description: string,
+    durationInMinutes: number,
+    isActive: boolean,
+    isDeleted: boolean,
+    companyId: string,
+    name: string,
+    price: number
+}
+
+export type { User, Service };

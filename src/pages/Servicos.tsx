@@ -2,8 +2,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { Search, Plus, Clock, DollarSign, Wrench } from "lucide-react";
 import { useServices } from "@/lib/hooks/useServices";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createServiceSchema, CreateServiceSchema } from "@/lib/schemas/createServiceSchema";
+import { useState } from "react";
 
 const mockServices = [
   {
@@ -51,7 +59,29 @@ const Servicos = () => {
       : { variant: 'secondary' as const, label: 'Inativo' };
   };
 
-  const { services, isLoadingServices } = useServices();
+  const { services, isLoadingServices, createService } = useServices();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<CreateServiceSchema>({
+    resolver: zodResolver(createServiceSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      price: 0,
+      durationInMinutes: 60,
+      isActive: true
+    }
+  });
+
+  const onSubmit = async (data: CreateServiceSchema) => {
+    try {
+      await createService.mutateAsync(data);
+      setIsDialogOpen(false);
+      reset();
+    } catch (error) {
+      console.error("Erro ao criar serviço:", error);
+    }
+  };
 
   const getCategoryColor = (category: string) => {
     const colors = {
@@ -73,10 +103,93 @@ const Servicos = () => {
           <h1 className="text-3xl font-bold text-foreground">Serviços</h1>
           <p className="text-muted-foreground">Gerencie o catálogo de serviços</p>
         </div>
-        <Button className="hover-scale">
-          <Plus className="h-4 w-4 mr-2" />
-          Novo Serviço
-        </Button>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button className="hover-scale">
+              <Plus className="h-4 w-4 mr-2" />
+              Novo Serviço
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Criar Novo Serviço</DialogTitle>
+              <DialogDescription>
+                Preencha as informações do novo serviço
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Nome do Serviço</Label>
+                <Input
+                  id="name"
+                  placeholder="Ex: Corte de Cabelo"
+                  {...register("name")}
+                />
+                {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description">Descrição</Label>
+                <Textarea
+                  id="description"
+                  placeholder="Descrição detalhada do serviço"
+                  {...register("description")}
+                />
+                {errors.description && <span className="text-red-500 text-sm">{errors.description.message}</span>}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="price">Preço (R$)</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    {...register("price", { valueAsNumber: true })}
+                  />
+                  {errors.price && <span className="text-red-500 text-sm">{errors.price.message}</span>}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="duration">Duração (min)</Label>
+                  <Input
+                    id="duration"
+                    type="number"
+                    placeholder="60"
+                    {...register("durationInMinutes", { valueAsNumber: true })}
+                  />
+                  {errors.durationInMinutes && <span className="text-red-500 text-sm">{errors.durationInMinutes.message}</span>}
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="isActive"
+                  checked={watch("isActive")}
+                  onCheckedChange={(checked) => setValue("isActive", checked)}
+                />
+                <Label htmlFor="isActive">Serviço ativo</Label>
+              </div>
+
+              <div className="flex justify-end space-x-2 pt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsDialogOpen(false);
+                    reset();
+                  }}
+                >
+                  Cancelar
+                </Button>
+                <Button type="submit" disabled={createService.isPending}>
+                  {createService.isPending ? "Criando..." : "Criar Serviço"}
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Search and Filters */}

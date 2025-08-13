@@ -5,7 +5,6 @@ import { User } from "../types"
 import { useLocation, useNavigate } from "react-router"
 import { type RegisterSchema } from "../schemas/registerSchema"
 import { toast } from "sonner"
-// import { toast } from "react-toastify"
 
 export const useAccount = () => {
     const queryClinet = useQueryClient();

@@ -13,45 +13,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createServiceSchema, CreateServiceSchema } from "@/lib/schemas/createServiceSchema";
 import { useState } from "react";
 
-const mockServices = [
-  {
-    id: '1',
-    name: 'Limpeza Residencial Completa',
-    description: 'Limpeza profunda de residências incluindo todos os cômodos',
-    duration: '3 horas',
-    price: 150.00,
-    category: 'Limpeza',
-    status: 'active'
-  },
-  {
-    id: '2',
-    name: 'Manutenção Elétrica Predial',
-    description: 'Instalação e manutenção de sistemas elétricos',
-    duration: '2 horas',
-    price: 200.00,
-    category: 'Elétrica',
-    status: 'active'
-  },
-  {
-    id: '3',
-    name: 'Jardinagem e Paisagismo',
-    description: 'Cuidados com jardins, poda e paisagismo',
-    duration: '4 horas',
-    price: 120.00,
-    category: 'Jardinagem',
-    status: 'inactive'
-  },
-  {
-    id: '4',
-    name: 'Pintura Residencial',
-    description: 'Pintura interna e externa de residências',
-    duration: '6 horas',
-    price: 300.00,
-    category: 'Pintura',
-    status: 'active'
-  }
-];
-
 const Servicos = () => {
   const getStatusBadge = (status: string) => {
     return status === 'active' 
@@ -223,60 +184,7 @@ const Servicos = () => {
 
       {/* Services Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* {mockServices.map((service) => {
-          const statusConfig = getStatusBadge(service.status);
-          
-          return (
-            <Card key={service.id} className="shadow-soft hover:shadow-elegant transition-all duration-300 hover-scale">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <CardTitle className="text-xl">{service.name}</CardTitle>
-                      <Badge variant={statusConfig.variant} className="text-xs">
-                        {statusConfig.label}
-                      </Badge>
-                    </div>
-                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(service.category)}`}>
-                      {service.category}
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-primary">
-                      R$ {service.price.toFixed(2)}
-                    </div>
-                  </div>
-                </div>
-              </CardHeader>
-              
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground text-sm">
-                  {service.description}
-                </p>
-                
-                <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                  <div className="flex items-center space-x-1">
-                    <Clock className="h-4 w-4" />
-                    <span>{service.duration}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <DollarSign className="h-4 w-4" />
-                    <span>R$ {service.price.toFixed(2)}</span>
-                  </div>
-                </div>
-                
-                <div className="flex gap-2 pt-2">
-                  <Button variant="outline" size="sm" className="flex-1">
-                    Editar
-                  </Button>
-                  <Button size="sm" className="flex-1">
-                    Agendar
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })} */}
+        
         {services.map((service) => {
           const statusConfig = getStatusBadge(service.isActive ? 'active' : 'inactive');
           return (
